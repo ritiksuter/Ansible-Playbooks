@@ -1,0 +1,24 @@
+---
+- name: Downloading node.js on centos
+  hosts: all
+  become: true
+  become_method: sudo
+
+  tasks:
+    - name: Add node.js repository
+      yum_repository:
+        name: nodesource
+        description: Node.js Packages for Enterprise Linux
+        baseurl: https://rpm.nodesource.com/pub_16.x/el/$releaserver/$basearch
+        gpgcheck: yes
+        gpgkey: https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+        enabled: yes
+    - name: Install node.js
+      yum:
+        name: nodejs
+        state: present
+    - name: Verify Node.js installation
+      command: node --version
+      register: node_version_output
+    - debug:
+        msg: "Node.js version installed:{{ node_version_output.stdout }}"

@@ -1,0 +1,9 @@
+---
+- name: Run a script
+  hosts: all
+  tasks:
+    - name: Run Script
+      shell: bash test.sh >> riki.log
+      args:
+        chdir: /tmp/script
+        creates: riki.log
